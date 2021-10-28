@@ -12,6 +12,7 @@ dist-ssr
 **/node_modules/*
 **/.firebaserc
 firebase.js
+firebase.json
 
 ### Firebase Patch ###
 .runtimeconfig.json
