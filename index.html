@@ -1,13 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
   </head>
+
+  <script src="https://cdn.jsdelivr.net/npm/@chirimen/microbit"></script>
+
+  <script src="main.js"></script>
+
   <body>
-    <div id="app"></div>
-    <script type="module" src="/main.js"></script>
+    <form name="js">
+      <input type="button" value="Connect" onclick="connect();" />
+      <input type="button" value="Disconnect" onclick="disconnect();" />
+    </form>
+    <div id="msg">---</div>
+    <hr />
+    <table>
+      <tr>
+        <td colspan="2">
+          <input type="button" value="Read Sensors" onclick="readSensor();" />
+        </td>
+      </tr>
+      <tr>
+        <td>Internal Sensors</td>
+        <td id="isens">-</td>
+      </tr>
+      <tr>
+        <td colspan="2">LED</td>
+      </tr>
+      <tr>
+        <td><input id="txt" type="text" value="Hello!" /></td>
+        <td><input type="button" value="Print" onclick="print();" /></td>
+      </tr>
+      <tr>
+        <td>
+          <input id="txt2" style="width: 50px" type="text" value="0" />(0..39)
+        </td>
+        <td><input type="button" value="showIcon" onclick="showIcon();" /></td>
+      </tr>
+    </table>
+
+    <img src="imgs/CMMB_Embed.png" width="300" />
   </body>
 </html>
