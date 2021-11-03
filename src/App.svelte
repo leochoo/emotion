@@ -4,6 +4,8 @@
   let name;
   var microBitBle;
 
+  let sensorInfo = "";
+
   async function connect() {
     microBitBle = await microBitBleFactory.connect();
     msg.innerHTML = "micro:bit BLE接続しました。";
@@ -16,8 +18,29 @@
 
   async function readSensor() {
     var sdat = await microBitBle.readSensor();
-    console.log("sensor:", sdat);
-    isens.innerHTML =
+    // console.log("sensor:", sdat);
+    // isens.innerHTML =
+    //   "acceleration:" +
+    //   sdat.acceleration.x +
+    //   "," +
+    //   sdat.acceleration.y +
+    //   "," +
+    //   sdat.acceleration.z +
+    //   "  magneticField:" +
+    //   sdat.magneticField.x +
+    //   "," +
+    //   sdat.magneticField.y +
+    //   "," +
+    //   sdat.magneticField.z +
+    //   "," +
+    //   "  temperature:" +
+    //   sdat.temperature +
+    //   "  brightness:" +
+    //   sdat.brightness +
+    //   "  button:" +
+    //   sdat.button;
+
+    sensorInfo =
       "acceleration:" +
       sdat.acceleration.x +
       "," +
@@ -49,11 +72,8 @@
 </script>
 
 <main>
-  <h1>Hello {name}!</h1>
-  <p>
-    Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn
-    how to build Svelte apps.
-  </p>
+  <h1>Team Emotion</h1>
+  <p>あなたの応援の気持ちを送りましょう。</p>
 
   <form name="js">
     <Button type="button" color="primary" on:click={connect}>Connect</Button>
@@ -73,14 +93,13 @@
     </tr>
     <tr>
       <td>Internal Sensors</td>
-      <td id="isens">-</td>
+      {sensorInfo}
     </tr>
     <tr>
       <td colspan="2">LED</td>
     </tr>
     <tr>
       <td><input id="txt" type="text" value="Hello!" /></td>
-      <!-- <td><input type="button" value="Print" on:click={print} /></td> -->
       <td
         ><Button type="button" color="secondary" on:click={print}>Print</Button
         ></td
