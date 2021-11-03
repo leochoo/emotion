@@ -1,4 +1,5 @@
 <script>
+  import BoardImage from "./imgs/CMMB_Embed.png";
   let name;
   var microBitBle;
 
@@ -84,7 +85,7 @@
     </tr>
   </table>
 
-  <img src="src/imgs/CMMB_Embed.png" alt="random board" width="300" />
+  <img src={BoardImage} alt="random board" width="300" />
 </main>
 
 <style>
