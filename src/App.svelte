@@ -84,7 +84,7 @@
     </tr>
   </table>
 
-  <img src="imgs/CMMB_Embed.png" width="300" />
+  <img src="src/imgs/CMMB_Embed.png" alt="random board" width="300" />
 </main>
 
 <style>
