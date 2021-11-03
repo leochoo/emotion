@@ -1,5 +1,6 @@
 <script>
   import BoardImage from "./imgs/CMMB_Embed.png";
+  import { Button } from "sveltestrap";
   let name;
   var microBitBle;
 
@@ -55,6 +56,7 @@
   </p>
 
   <form name="js">
+    <Button type="button">Connect</Button>
     <input type="button" value="Connect" on:click={connect} />
     <input type="button" value="Disconnect" on:click={disconnect} />
   </form>
