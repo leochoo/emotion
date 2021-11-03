@@ -56,16 +56,19 @@
   </p>
 
   <form name="js">
-    <Button type="button">Connect</Button>
-    <input type="button" value="Connect" on:click={connect} />
-    <input type="button" value="Disconnect" on:click={disconnect} />
+    <Button type="button" color="primary" on:click={connect}>Connect</Button>
+    <Button type="button" color="danger" on:click={disconnect}
+      >Disconnect</Button
+    >
   </form>
   <div id="msg">---</div>
   <hr />
   <table>
     <tr>
       <td colspan="2">
-        <input type="button" value="Read Sensors" on:click={readSensor} />
+        <Button type="button" color="info" on:click={readSensor}
+          >Read Sensors</Button
+        >
       </td>
     </tr>
     <tr>
@@ -77,13 +80,22 @@
     </tr>
     <tr>
       <td><input id="txt" type="text" value="Hello!" /></td>
-      <td><input type="button" value="Print" on:click={print} /></td>
+      <!-- <td><input type="button" value="Print" on:click={print} /></td> -->
+      <td
+        ><Button type="button" color="secondary" on:click={print}>Print</Button
+        ></td
+      >
     </tr>
     <tr>
       <td>
         <input id="txt2" style="width: 50px" type="text" value="0" />(0..39)
       </td>
-      <td><input type="button" value="showIcon" on:click={showIcon} /></td>
+      <!-- <td><input type="button" value="showIcon" on:click={showIcon} /></td> -->
+      <td
+        ><Button type="button" color="secondary" on:click={showIcon}
+          >Show Icon</Button
+        ></td
+      >
     </tr>
   </table>
 
