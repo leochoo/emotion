@@ -4,7 +4,13 @@
   let name;
   var microBitBle;
 
-  let sensorInfo = "";
+  let sensorInfo;
+  let gx;
+  let gy;
+  let gz;
+  let temperature;
+  let brightness;
+  let buttonCombination;
 
   async function connect() {
     microBitBle = await microBitBleFactory.connect();
@@ -16,50 +22,30 @@
     msg.innerHTML = "micro:bit BLE接続を切断しました。";
   }
 
-  async function readSensor() {
-    var sdat = await microBitBle.readSensor();
-    // console.log("sensor:", sdat);
-    // isens.innerHTML =
-    //   "acceleration:" +
-    //   sdat.acceleration.x +
-    //   "," +
-    //   sdat.acceleration.y +
-    //   "," +
-    //   sdat.acceleration.z +
-    //   "  magneticField:" +
-    //   sdat.magneticField.x +
-    //   "," +
-    //   sdat.magneticField.y +
-    //   "," +
-    //   sdat.magneticField.z +
-    //   "," +
-    //   "  temperature:" +
-    //   sdat.temperature +
-    //   "  brightness:" +
-    //   sdat.brightness +
-    //   "  button:" +
-    //   sdat.button;
+  let reading = false;
 
-    sensorInfo =
-      "acceleration:" +
-      sdat.acceleration.x +
-      "," +
-      sdat.acceleration.y +
-      "," +
-      sdat.acceleration.z +
-      "  magneticField:" +
-      sdat.magneticField.x +
-      "," +
-      sdat.magneticField.y +
-      "," +
-      sdat.magneticField.z +
-      "," +
-      "  temperature:" +
-      sdat.temperature +
-      "  brightness:" +
-      sdat.brightness +
-      "  button:" +
-      sdat.button;
+  async function readSensor() {
+    // toggle reading state
+    reading = !reading;
+    console.log("readSensor", reading);
+
+    for (let i = 0; i < 10; i++) {
+      await setTimeout(getSensorData, 1000);
+    }
+  }
+
+  async function getSensorData() {
+    if (reading) {
+      var sdat = await microBitBle.readSensor();
+      console.log("sensor:", sdat);
+
+      gx = sdat.acceleration.x;
+      gy = sdat.acceleration.y;
+      gz = sdat.acceleration.z;
+      temperature = sdat.temperature;
+      brightness = sdat.brightness;
+      buttonCombination = sdat.button;
+    }
   }
 
   async function print() {
@@ -91,10 +77,35 @@
         >
       </td>
     </tr>
+
     <tr>
-      <td>Internal Sensors</td>
-      {sensorInfo}
+      <td>Sensor Info Table</td>
     </tr>
+    <tr>
+      <td>Gx</td>
+      <td>{gx}</td>
+    </tr>
+    <tr>
+      <td>Gy</td>
+      <td>{gy}</td>
+    </tr>
+    <tr>
+      <td>Gz</td>
+      <td>{gz}</td>
+    </tr>
+    <tr>
+      <td>Temperature</td>
+      <td>{temperature}</td>
+    </tr>
+    <tr>
+      <td>Brightness</td>
+      <td>{brightness}</td>
+    </tr>
+    <tr>
+      <td>Button</td>
+      <td>{buttonCombination}</td>
+    </tr>
+
     <tr>
       <td colspan="2">LED</td>
     </tr>
