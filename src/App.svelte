@@ -1,6 +1,49 @@
 <script>
-  export let name;
-  import { connect } from "./main";
+  let name;
+  var microBitBle;
+
+  async function connect() {
+    microBitBle = await microBitBleFactory.connect();
+    msg.innerHTML = "micro:bit BLE接続しました。";
+  }
+
+  async function disconnect() {
+    await microBitBle.disconnect();
+    msg.innerHTML = "micro:bit BLE接続を切断しました。";
+  }
+
+  async function readSensor() {
+    var sdat = await microBitBle.readSensor();
+    console.log("sensor:", sdat);
+    isens.innerHTML =
+      "acceleration:" +
+      sdat.acceleration.x +
+      "," +
+      sdat.acceleration.y +
+      "," +
+      sdat.acceleration.z +
+      "  magneticField:" +
+      sdat.magneticField.x +
+      "," +
+      sdat.magneticField.y +
+      "," +
+      sdat.magneticField.z +
+      "," +
+      "  temperature:" +
+      sdat.temperature +
+      "  brightness:" +
+      sdat.brightness +
+      "  button:" +
+      sdat.button;
+  }
+
+  async function print() {
+    await microBitBle.printLED(txt.value);
+  }
+
+  async function showIcon() {
+    await microBitBle.showIconLED(Number(txt2.value));
+  }
 </script>
 
 <main>
@@ -11,15 +54,15 @@
   </p>
 
   <form name="js">
-    <input type="button" value="Connect" onclick="connect();" />
-    <input type="button" value="Disconnect" onclick="disconnect();" />
+    <input type="button" value="Connect" on:click={connect} />
+    <input type="button" value="Disconnect" on:click={disconnect} />
   </form>
   <div id="msg">---</div>
   <hr />
   <table>
     <tr>
       <td colspan="2">
-        <input type="button" value="Read Sensors" onclick="readSensor();" />
+        <input type="button" value="Read Sensors" on:click={readSensor} />
       </td>
     </tr>
     <tr>
@@ -31,13 +74,13 @@
     </tr>
     <tr>
       <td><input id="txt" type="text" value="Hello!" /></td>
-      <td><input type="button" value="Print" onclick="print();" /></td>
+      <td><input type="button" value="Print" on:click={print} /></td>
     </tr>
     <tr>
       <td>
         <input id="txt2" style="width: 50px" type="text" value="0" />(0..39)
       </td>
-      <td><input type="button" value="showIcon" onclick="showIcon();" /></td>
+      <td><input type="button" value="showIcon" on:click={showIcon} /></td>
     </tr>
   </table>
 
