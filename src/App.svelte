@@ -24,28 +24,38 @@
 
   let reading = false;
 
+  const waitFor = (delay) =>
+    new Promise((resolve) => setTimeout(resolve, delay));
+
   async function readSensor() {
     // toggle reading state
     reading = !reading;
     console.log("readSensor", reading);
 
-    for (let i = 0; i < 10; i++) {
-      await setTimeout(getSensorData, 1000);
+    // if reading state true
+    if (reading) {
+      // for every second, fetch the sensor data!
+      for (let i = 0; i < 10; i++) {
+        console.log("i", i);
+        await waitFor(1000);
+        getSensorData();
+        if (reading == false) {
+          break;
+        }
+      }
     }
   }
 
   async function getSensorData() {
-    if (reading) {
-      var sdat = await microBitBle.readSensor();
-      console.log("sensor:", sdat);
+    var sdat = await microBitBle.readSensor();
+    console.log("sensor:", sdat);
 
-      gx = sdat.acceleration.x;
-      gy = sdat.acceleration.y;
-      gz = sdat.acceleration.z;
-      temperature = sdat.temperature;
-      brightness = sdat.brightness;
-      buttonCombination = sdat.button;
-    }
+    gx = sdat.acceleration.x;
+    gy = sdat.acceleration.y;
+    gz = sdat.acceleration.z;
+    temperature = sdat.temperature;
+    brightness = sdat.brightness;
+    buttonCombination = sdat.button;
   }
 
   async function print() {
@@ -72,9 +82,15 @@
   <table>
     <tr>
       <td colspan="2">
-        <Button type="button" color="info" on:click={readSensor}
-          >Read Sensors</Button
-        >
+        {#if reading == false}
+          <Button type="button" color="info" on:click={readSensor}
+            >Read Sensors (10s)</Button
+          >
+        {:else}
+          <Button type="button" color="danger" on:click={readSensor}
+            >Stop Reading</Button
+          >
+        {/if}
       </td>
     </tr>
 
