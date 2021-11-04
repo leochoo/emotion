@@ -67,7 +67,7 @@
   }
 
   import { doc, setDoc } from "firebase/firestore";
-  import { db } from "../firebase";
+  import { db } from "../firebaseConfig.js";
   let isReady = false;
   async function readyToggle() {
     isReady = !isReady;
