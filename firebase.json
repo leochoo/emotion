@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "target": "emotion",
     "public": "dist",
     "ignore": [
       "firebase.json",
