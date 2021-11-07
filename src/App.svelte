@@ -31,13 +31,12 @@
     // toggle reading state
     reading = !reading;
     console.log("readSensor", reading);
-
     // if reading state true
     if (reading) {
       // for every second, fetch the sensor data!
       for (let i = 0; i < 10; i++) {
         console.log("i", i);
-        await waitFor(1000);
+        await waitFor(500);
         getSensorData();
         if (reading == false) {
           break;
@@ -68,16 +67,12 @@
 
   import { doc, setDoc } from "firebase/firestore";
   import { db } from "../firebaseConfig.js";
-  let isReady = false;
-  async function readyToggle() {
-    isReady = !isReady;
-    console.log("isReady: ", isReady);
-    // write data to firebase events/testEvent
-    // await db.collection("events").doc("testEvent").set({
-    //   isReady: isReady,
-    // });
+  let testToggle = false;
+  async function handleToggle() {
+    testToggle = !testToggle;
+    console.log("testToggle: ", testToggle);
     await setDoc(doc(db, "events", "testEvent"), {
-      isReady: isReady,
+      testToggle: testToggle,
     });
   }
 </script>
@@ -93,8 +88,8 @@
     >
   </form>
   <form name="js">
-    <Button type="button" color="primary" on:click={readyToggle}
-      >readyToggle</Button
+    <Button type="button" color="primary" on:click={handleToggle}
+      >testToggle</Button
     >
   </form>
   <div id="msg">---</div>
