@@ -8,6 +8,7 @@
   let gx;
   let gy;
   let gz;
+
   let temperature;
   let brightness;
   let buttonCombination;
@@ -27,6 +28,14 @@
   const waitFor = (delay) =>
     new Promise((resolve) => setTimeout(resolve, delay));
 
+  let prevAcc = null;
+  let currAcc = null;
+  let diffX = 0;
+  let diffY = 0;
+  let diffZ = 0;
+  let maxDirection = "";
+  let maxDiff = 0;
+
   async function readSensor() {
     // toggle reading state
     reading = !reading;
@@ -34,27 +43,56 @@
     // if reading state true
     if (reading) {
       // for every second, fetch the sensor data!
-      for (let i = 0; i < 10; i++) {
-        console.log("i", i);
-        await waitFor(500);
-        getSensorData();
+      for (let i = 0; i < 100; i++) {
+        var sdat = await microBitBle.readSensor();
+
+        gx = sdat.acceleration.x;
+        gy = sdat.acceleration.y;
+        gz = sdat.acceleration.z;
+
+        if (i === 0 && prevAcc === null) {
+          prevAcc = sdat.acceleration;
+          console.log("prevAcc", prevAcc);
+        }
+        if (i === 1 && currAcc === null) {
+          currAcc = sdat.acceleration;
+          console.log("currAcc", currAcc);
+        }
+
+        if (prevAcc !== null && currAcc !== null) {
+          diffX = Math.abs(currAcc.x - prevAcc.x);
+          diffY = Math.abs(currAcc.y - prevAcc.y);
+          diffZ = Math.abs(currAcc.z - prevAcc.z);
+
+          // update currAcc and prevAcc to the next sensor data
+          prevAcc = currAcc;
+          currAcc = sdat.acceleration;
+
+          // take the maximum of diffX, diffY, diffZ
+          if (diffX > diffY && diffX > diffZ) {
+            maxDirection = "x";
+            maxDiff = diffX;
+          } else if (diffY > diffX && diffY > diffZ) {
+            maxDirection = "y";
+            maxDiff = diffY;
+          } else {
+            maxDiff = diffZ;
+            maxDirection = "z";
+          }
+          console.log(maxDirection, maxDiff);
+        }
+
+        // console.log("i", i);
+        // console.log("sensor:", sdat);
+        // console.log("console.log:", sdat.acceleration.x);
+        // console.log("diffX", diffX);
+
         if (reading == false) {
           break;
         }
+        await waitFor(200);
       }
     }
-  }
-
-  async function getSensorData() {
-    var sdat = await microBitBle.readSensor();
-    console.log("sensor:", sdat);
-
-    gx = sdat.acceleration.x;
-    gy = sdat.acceleration.y;
-    gz = sdat.acceleration.z;
-    temperature = sdat.temperature;
-    brightness = sdat.brightness;
-    buttonCombination = sdat.button;
   }
 
   async function print() {
@@ -125,19 +163,6 @@
         <td>Gz</td>
         <td>{gz}</td>
       </tr>
-      <tr>
-        <td>Temperature</td>
-        <td>{temperature}</td>
-      </tr>
-      <tr>
-        <td>Brightness</td>
-        <td>{brightness}</td>
-      </tr>
-      <tr>
-        <td>Button</td>
-        <td>{buttonCombination}</td>
-      </tr>
-
       <tr>
         <td colspan="2">LED</td>
       </tr>
