@@ -36,6 +36,8 @@
   let maxDirection = "";
   let maxDiff = 0;
 
+  let totalScore = 0;
+
   async function readSensor() {
     // toggle reading state
     reading = !reading;
@@ -80,6 +82,9 @@
             maxDirection = "z";
           }
           console.log(maxDirection, maxDiff);
+
+          // update totalScore
+          totalScore += maxDiff;
         }
 
         // console.log("i", i);
@@ -90,7 +95,7 @@
         if (reading == false) {
           break;
         }
-        await waitFor(200);
+        await waitFor(500);
       }
     }
   }
@@ -130,7 +135,7 @@
       >testToggle</Button
     >
   </form>
-  <div id="msg">---</div>
+  <h2>Total Score: {totalScore}</h2>
   <hr />
   <div>
     <table>
