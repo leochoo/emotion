@@ -129,7 +129,7 @@
 
 <main>
   <h1>Team Emotion</h1>
-  <p>あなたの応援の気持ちを送りましょう。</p>
+  <p>あなたの応援の気持ちを送りましょう！</p>
 
   <form name="js">
     <Button type="button" color="primary" on:click={connect}>Connect</Button>
