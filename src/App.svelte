@@ -45,7 +45,7 @@
     // if reading state true
     if (reading) {
       // for every second, fetch the sensor data!
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 10; i++) {
         var sdat = await microBitBle.readSensor();
 
         gx = sdat.acceleration.x;
@@ -85,6 +85,7 @@
 
           // update totalScore
           totalScore += maxDiff;
+          await handleScore();
         }
 
         // console.log("i", i);
@@ -95,7 +96,7 @@
         if (reading == false) {
           break;
         }
-        await waitFor(500);
+        await waitFor(1000);
       }
     }
   }
@@ -118,6 +119,12 @@
       testToggle: testToggle,
     });
   }
+  async function handleScore() {
+    console.log("sending score to firebase");
+    await setDoc(doc(db, "events", "testEvent"), {
+      totalScore: totalScore,
+    });
+  }
 </script>
 
 <main>
@@ -136,6 +143,7 @@
     >
   </form>
   <h2>Total Score: {totalScore}</h2>
+  <div id="msg">---</div>
   <hr />
   <div>
     <table>
