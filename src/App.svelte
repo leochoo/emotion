@@ -110,7 +110,7 @@
   }
 
   import { doc, setDoc } from "firebase/firestore";
-  import { db } from "../firebaseConfig.js";
+  import { db } from "../firebase.js";
   let testToggle = false;
   async function handleToggle() {
     testToggle = !testToggle;
