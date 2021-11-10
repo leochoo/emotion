@@ -4,6 +4,8 @@
   import Login from "./Login.svelte";
   import Sensor from "./Sensor.svelte";
   import ChatList from "./ChatList.svelte";
+  import ChatRoom from "./ChatRoom.svelte";
+
   import { Router, Link, Route } from "svelte-routing";
 
   import { userStatus } from "./stores";
@@ -18,15 +20,22 @@
 <Router>
   <main>
     <Home />
-    <div>user_status: {user_status}</div>
     <Login />
-    {#if user_status}
-      <div>
-        Welcome {user_status["uid"]} !
-      </div>
-      <ChatList uid={user_status.uid} />
+    <!-- <div>user_status: {user_status}</div> -->
+
+    <Route path="chat/:id" let:params>
+      <ChatRoom id={params.id} />
       <!-- <Sensor /> -->
-    {/if}
+    </Route>
+
+    <Route path="/">
+      {#if user_status}
+        <div>
+          Welcome {user_status["uid"]} !
+        </div>
+        <ChatList uid={user_status.uid} />
+      {/if}
+    </Route>
   </main>
 </Router>
 

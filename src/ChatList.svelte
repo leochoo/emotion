@@ -1,6 +1,8 @@
 <script>
   import { onMount } from "svelte";
   import { db } from "../firebase.js";
+  import { Router, Link, Route } from "svelte-routing";
+
   import {
     collection,
     addDoc,
@@ -55,7 +57,7 @@
   <div>
     <ul>
       {#each chatList as chat (chat.id)}
-        <li>{chat.id}</li>
+        <li><Link to={"chat/" + chat.id}>{chat.id}</Link></li>
       {/each}
     </ul>
 
