@@ -8,22 +8,37 @@
     query,
     where,
     onSnapshot,
+    orderBy,
   } from "firebase/firestore";
 
   export let uid;
 
-  onMount(async () => {
-    console.log(uid);
-    const q = query(collection(db, "chats"), where("owner", "==", uid));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const chatRooms = [];
-      querySnapshot.forEach((doc) => {
-        // chatRooms.push(doc.data());
-        chatRooms.push(doc.id);
-      });
-      console.log("Current chatRooms: ", chatRooms.join(", "));
+  let chatList = [];
+
+  console.log(uid);
+
+  const q = query(
+    collection(db, "chats"),
+    where("owner", "==", uid),
+    orderBy("createdAt", "desc")
+  );
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    var chatRooms = [];
+    querySnapshot.forEach((doc) => {
+      const chatObj = {
+        id: doc.id,
+        createdAt: doc.data().createdAt,
+        owner: doc.data().owner,
+        members: doc.data().members,
+      };
+
+      chatRooms = [...chatRooms, chatObj];
+      chatList = chatRooms;
     });
+    console.log("Current chatRooms: ", chatRooms);
   });
+
+  onMount(async () => {});
 
   async function createChatRoom() {
     const newChat = await addDoc(collection(db, "chats"), {
@@ -34,31 +49,14 @@
 
     console.log(newChat);
   }
-  // export default {
-  //   data() {
-  //     return {
-  //         chats: []
-  //     }
-  //   },
-  //   firestore() {
-  //     return {
-  //         chats: db.collection('chats').where('owner', '==', this.uid)
-  //     }
-  //   },
-  //   methods: {
-
-  //   },
-  //   props: ['uid']
-
-  // };
 </script>
 
 <main>
   <div>
     <ul>
-      <!-- <li v-for="chat of chats" :key="chat.id">
-          <router-link :to="{ name: 'chat', params: { id: chat.id } }">{{ chat.id }}</router-link>
-        </li> -->
+      {#each chatList as chat (chat.id)}
+        <li>{chat.id}</li>
+      {/each}
     </ul>
 
     <button on:click={createChatRoom} class="button"
