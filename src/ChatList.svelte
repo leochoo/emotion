@@ -1,11 +1,31 @@
 <script>
+  import { onMount } from "svelte";
   import { db } from "../firebase.js";
-  import { collection, addDoc } from "firebase/firestore";
+  import {
+    collection,
+    addDoc,
+    doc,
+    query,
+    where,
+    onSnapshot,
+  } from "firebase/firestore";
 
   export let uid;
 
-  async function createChatRoom() {
+  onMount(async () => {
     console.log(uid);
+    const q = query(collection(db, "chats"), where("owner", "==", uid));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const chatRooms = [];
+      querySnapshot.forEach((doc) => {
+        // chatRooms.push(doc.data());
+        chatRooms.push(doc.id);
+      });
+      console.log("Current chatRooms: ", chatRooms.join(", "));
+    });
+  });
+
+  async function createChatRoom() {
     const newChat = await addDoc(collection(db, "chats"), {
       createdAt: Date.now(),
       owner: uid,
