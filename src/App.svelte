@@ -3,6 +3,8 @@
   import Home from "./Home.svelte";
   import Login from "./Login.svelte";
   import Sensor from "./Sensor.svelte";
+  import ChatList from "./ChatList.svelte";
+  import { Router, Link, Route } from "svelte-routing";
 
   import { userStatus } from "./stores";
 
@@ -13,17 +15,20 @@
   });
 </script>
 
-<main>
-  <Home />
-  <div>user_status: {user_status}</div>
-  <Login />
-  {#if user_status}
-    <div>
-      Logged in as {user_status["uid"]}
-    </div>
-    <Sensor />
-  {/if}
-</main>
+<Router>
+  <main>
+    <Home />
+    <div>user_status: {user_status}</div>
+    <Login />
+    {#if user_status}
+      <div>
+        Welcome {user_status["uid"]} !
+      </div>
+      <ChatList uid={user_status.uid} />
+      <!-- <Sensor /> -->
+    {/if}
+  </main>
+</Router>
 
 <style>
   main {
