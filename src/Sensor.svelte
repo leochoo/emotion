@@ -1,6 +1,5 @@
 <script>
   import BoardImage from "./imgs/CMMB_Embed.png";
-  import { Button } from "sveltestrap";
   let name;
   var microBitBle;
 
@@ -129,14 +128,16 @@
 
 <main>
   <form name="js">
-    <Button type="button" color="primary" on:click={connect}>Connect</Button>
-    <Button type="button" color="danger" on:click={disconnect}
-      >Disconnect</Button
+    <button type="button" class="btn btn-primary" on:click={connect}
+      >Connect</button
+    >
+    <button type="button" class="btn btn-danger" on:click={disconnect}
+      >Disconnect</button
     >
   </form>
   <form name="js">
-    <Button type="button" color="primary" on:click={handleToggle}
-      >testToggle</Button
+    <button type="button" class="btn btn-light" on:click={handleToggle}
+      >testToggle</button
     >
   </form>
   <h2>Total Score: {totalScore}</h2>
@@ -147,12 +148,12 @@
       <tr>
         <td colspan="2">
           {#if reading == false}
-            <Button type="button" color="info" on:click={readSensor}
-              >Read Sensors (10s)</Button
+            <button type="button" class="btn btn-info" on:click={readSensor}
+              >Read Sensors (10s)</button
             >
           {:else}
-            <Button type="button" color="danger" on:click={readSensor}
-              >Stop Reading</Button
+            <button type="button" class="btn btn-danger" on:click={readSensor}
+              >Stop Reading</button
             >
           {/if}
         </td>
@@ -179,8 +180,8 @@
       <tr>
         <td><input id="txt" type="text" value="Hello!" /></td>
         <td
-          ><Button type="button" color="secondary" on:click={print}
-            >Print</Button
+          ><button type="button" color="secondary" on:click={print}
+            >Print</button
           ></td
         >
       </tr>
@@ -190,8 +191,8 @@
         </td>
         <!-- <td><input type="button" value="showIcon" on:click={showIcon} /></td> -->
         <td
-          ><Button type="button" color="secondary" on:click={showIcon}
-            >Show Icon</Button
+          ><button type="button" color="secondary" on:click={showIcon}
+            >Show Icon</button
           ></td
         >
       </tr>

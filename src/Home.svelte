@@ -1,24 +1,9 @@
 <script>
-  import "bootswatch/dist/litera/bootstrap.min.css";
-  import Home from "./Home.svelte";
-  import Login from "./Login.svelte";
-  import Sensor from "./Sensor.svelte";
-
-  import { userStatus } from "./stores";
-
-  let user_status;
-  userStatus.subscribe((value) => {
-    user_status = value;
-  });
 </script>
 
 <main>
-  <Home />
-  <div>user_status: {user_status}</div>
-  <Login />
-  {#if user_status}
-    <Sensor />
-  {/if}
+  <h1>Team Emotion</h1>
+  <p>あなたの応援の気持ちを送りましょう！</p>
 </main>
 
 <style>
