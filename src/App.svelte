@@ -9,6 +9,7 @@
   let user_status;
   userStatus.subscribe((value) => {
     user_status = value;
+    console.log("user status changed", value);
   });
 </script>
 
@@ -17,6 +18,9 @@
   <div>user_status: {user_status}</div>
   <Login />
   {#if user_status}
+    <div>
+      Logged in as {user_status["uid"]}
+    </div>
     <Sensor />
   {/if}
 </main>
